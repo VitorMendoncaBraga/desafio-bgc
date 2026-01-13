@@ -74,7 +74,7 @@ npm run test
 
 ```
 
-## Documentação
+## 📘 Documentação
 
 ### API de Consulta (Endpoint)
 
