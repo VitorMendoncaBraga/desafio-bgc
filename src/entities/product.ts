@@ -43,7 +43,6 @@ export class Product {
     this.Title = data.title;
   }
 
-  // Getters
   get id(): string {
     return this.Id;
   }
