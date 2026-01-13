@@ -1,0 +1,153 @@
+# Desafio BGC Brasil
+
+
+**Desafio da empresa BGC Brasil**
+
+[Características](#-características) • [Instalação](#-instalação) • [Documentação](#-documentação)
+
+</div>
+
+---
+
+## 📖 Sobre
+
+Desafio BGC é uma solução Serverless robusta desenvolvida para monitorar e catalogar automaticamente os produtos mais vendidos (Bestsellers) da Amazon Brasil. Construído sobre o ecossistema AWS utilizando Node.js 20 e TypeScript, o projeto combina automação de coleta de dados (web scraping) com uma API REST performática.
+
+O sistema utiliza Puppeteer para extração inteligente de dados e DynamoDB para armazenamento escalável, garantindo acesso rápido aos rankings atualizados de diversas categorias. Projetado com foco em Clean Architecture e princípios de desenvolvimento moderno, a solução oferece endpoints otimizados para consulta dos "Top 3" produtos por categoria, demonstrando eficiência em arquitetura em nuvem e processamento de dados.
+
+## ✨ Características
+
+### 🏛️ Arquitetura Serverless
+- Deploy otimizado utilizando AWS Lambda, API Gateway e DynamoDB via Serverless Framework.
+
+### 🤖 Web Scrapping Automatizado
+- Robô inteligente com Puppeteer que navega e extrai dados de múltiplas categorias da Amazon.
+
+### ⚙️ Alta Performance:
+- Armazenamento NoSQL com DynamoDB utilizando Global Secondary Indexes (GSI) para consultas complexas de ranking.
+
+### 🎯 Código Moderno
+- Desenvolvido inteiramente em TypeScript, garantindo tipagem estática e segurança no desenvolvimento.
+
+### 📖 API RESTful
+- Endpoints claros e documentados para consumo dos dados coletados.
+
+## 🚀 Instalação
+
+### Requisitos do Sistema
+
+- **Node.js**: 20+ 
+
+### Instalação 
+
+```bash
+# Clonar repositório
+git clone https://github.com/VitorMendoncaBraga/desafio-bgc
+
+# Instalar dependências
+npm install
+
+# Configurar credenciais da AWS (caso ainda não possua)
+aws configure
+
+# Realizar o deploy da infraestrutura e funções Lambda
+npx serverless deploy
+
+# Executar o scraper localmente para popular o banco de dados
+npm run scrapper
+
+```
+
+### Documentação
+
+## API de Consulta (Endpoint)
+
+A API estará disponível através do endpoint gerado pelo Serverless. Você pode buscar os 3 melhores produtos de uma categoria específica enviando uma requisição GET:
+
+Exemplo de URL: 
+```
+https://{api-id}.execute-api.us-east-1.amazonaws.com/dev/bestsellers?category=books
+```
+
+No caso, o endpoint oficial é: 
+```https://vz8ic0fnl0.execute-api.us-east-1.amazonaws.com/dev/bestsellers```
+
+## Parâmetros Disponíveis
+
+| Parâmetro | Tipo | Padrão | Descrição |
+|-----------|------|--------|-----------|
+| `category` | string | - | Obrigatório. Slug da categoria desejada (ex: books, electronics) |
+
+## Categorias suportadas
+
+Para garantir o sucesso da requisição, utilize os slugs abaixo no parâmetro category:
+
+books, fashion, kitchen, home, appliances, electronics, sports, videogames, furniture, pet-products.
+
+## 📥 Exemplos de requisições
+
+A API exige obrigatoriamente o parâmetro category na URL. Caso ele não seja enviado, a requisição retornará um erro de validação.
+
+✅ Requisição com Sucesso
+Para buscar os produtos, utilize o parâmetro via Query String:
+```
+URL: GET /dev/bestsellers?category=books
+```
+
+## 📥 Exemplo de resposta
+
+Ao realizar uma chamada para o endpoint, a API retornará um JSON contendo uma lista com os 3 produtos de melhor ranking (1º, 2º e 3º lugares):
+
+```
+{
+  "products": [
+    {
+      "id": "A-Menina-que-Roubava-Livros-books",
+      "title": "A Menina que Roubava Livros",
+      "price": "R$ 45,90",
+      "ranking": 1,
+      "category": "books",
+      "image": "https://images-amazon.com/...",
+      "link": "https://amazon.com.br/...",
+      "dataScraping": "2026-01-13T12:00:00Z"
+    },
+    ...
+  ]
+}
+```
+
+## 🏗️ Estrutura do Projeto
+
+```
+├── src/
+│   ├── entities/                # Definições de tipos e interfaces de domínio
+│   │   └── product.ts           # Entidade Product e tipos de Categoria
+│   ├── functions/               # Pontos de entrada das funções AWS Lambda
+│   │   └── handler.ts           # Handler principal da API (getTop3)
+│   ├── repositories/            # Camada de acesso a dados
+│   │   ├── dynamo-db/           # Implementação real (Produção)
+│   │   │   └── dynamo-db-product-repository.ts
+│   │   ├── in-memory/           # Implementação mockada (Testes)
+│   │   │   └── in-memory-product-repository.ts
+│   │   └── product-repository.ts # Interface/Contrato do repositório
+│   ├── scrapper/                # Automação de coleta de dados
+│   │   └── index.ts             # Script Puppeteer (Amazon Scraper)
+│   └── use-cases/               # Regras de negócio e testes unitários
+│       ├── errors/              # Erros customizados da aplicação
+│       ├── get-top-3-bestsellers-by-category.ts
+│       └── get-top-3-bestsellers-by-category.spec.ts
+├── .gitignore                   # Arquivos ignorados pelo Git
+├── package-lock.json            # Travamento de versões das dependências
+├── package.json                 # Scripts e dependências (Zod, Puppeteer, SDK)
+├── README.md                    # Documentação do projeto
+├── serverless.yml               # Configuração da Infraestrutura como Código (AWS)
+├── tsconfig.json                # Configurações do TypeScript
+└── vite.config.ts               # Configuração do Vitest (Suporte a Paths)
+```
+
+## 👤 Autor
+
+**Vitor Mendonça**
+
+- GitHub: (https://github.com/VitorMendoncaBraga)
+- Email: vmbbraga5@gmail.com
