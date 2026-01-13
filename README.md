@@ -74,9 +74,9 @@ npm run test
 
 ```
 
-### Documentação
+## Documentação
 
-## API de Consulta (Endpoint)
+### API de Consulta (Endpoint)
 
 A API estará disponível através do endpoint gerado pelo Serverless. Você pode buscar os 3 melhores produtos de uma categoria específica enviando uma requisição GET:
 
