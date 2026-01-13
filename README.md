@@ -1,5 +1,6 @@
-<div style="display: flex; justify-content: center">
 # Desafio BGC Brasil
+
+<div align="center">
 
 ![Node.js](https://img.shields.io/badge/Node.js-20-green)
 ![Serverless](https://img.shields.io/badge/Framework-Serverless-orange)
