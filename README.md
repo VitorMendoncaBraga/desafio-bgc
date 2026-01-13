@@ -1,5 +1,8 @@
 # Desafio BGC Brasil
 
+![Node.js](https://img.shields.io/badge/Node.js-20-green)
+![Serverless](https://img.shields.io/badge/Framework-Serverless-orange)
+![TypeScript](https://img.shields.io/badge/Language-TypeScript-blue)
 
 **Desafio da empresa BGC Brasil**
 
@@ -38,6 +41,14 @@ O sistema utiliza Puppeteer para extração inteligente de dados e DynamoDB para
 
 - **Node.js**: 20+ 
 
+- **AWS CLI**: Configurado com credenciais válidas para provisionamento de recursos na nuvem.
+
+- **Serverless Framework**: Global ou via npx para gerenciamento de deploy.
+
+- **Navegador**: O Puppeteer baixará uma instância do Chromium localmente, mas é necessário que o sistema operacional suporte a execução de navegadores headless (geralmente padrão em Windows/Mac).
+
+- **Gerenciador de Pacotes**: npm (nativo do Node) ou yarn.
+
 ### Instalação 
 
 ```bash
@@ -55,6 +66,9 @@ npx serverless deploy
 
 # Executar o scraper localmente para popular o banco de dados
 npm run scrapper
+
+# Executar os testes unitários (Vitest)
+npm run test
 
 ```
 
@@ -88,17 +102,26 @@ books, fashion, kitchen, home, appliances, electronics, sports, videogames, furn
 
 A API exige obrigatoriamente o parâmetro category na URL. Caso ele não seja enviado, a requisição retornará um erro de validação.
 
-✅ Requisição com Sucesso
+✅ **Requisição com Sucesso**
 Para buscar os produtos, utilize o parâmetro via Query String:
 ```
 URL: GET /dev/bestsellers?category=books
+```
+❌ **Requisição com Erro (Parâmetro ausente)**
+URL: `GET /dev/bestsellers`
+
+**Resposta (400 Bad Request):**
+```json
+{
+  "message": "O parâmetro 'category' é obrigatório."
+}
 ```
 
 ## 📥 Exemplo de resposta
 
 Ao realizar uma chamada para o endpoint, a API retornará um JSON contendo uma lista com os 3 produtos de melhor ranking (1º, 2º e 3º lugares):
 
-```
+```json
 {
   "products": [
     {

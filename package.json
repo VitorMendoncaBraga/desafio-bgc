@@ -19,8 +19,9 @@
     "serverless-esbuild": "^1.57.0",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
+    "vite": "^4.5.3",
     "vite-tsconfig-paths": "^6.0.4",
-    "vitest": "^4.0.17"
+    "vitest": "^0.34.6"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.966.0",
