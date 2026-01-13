@@ -1,5 +1,11 @@
-import { randomUUID } from 'node:crypto';
+
 import puppeteer from 'puppeteer';
+
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
+
+const client = new DynamoDBClient({ region: "us-east-1" });
+const docClient = DynamoDBDocumentClient.from(client);
 
 const categories = [
     { nome: 'Books', slug: 'books', url: 'https://www.amazon.com.br/gp/bestsellers/books' },
@@ -18,7 +24,7 @@ async function runScrapper() {
     const browser = await puppeteer.launch({
         headless: false,
         defaultViewport: null,
-        args: ['--start-maximized']  
+        args: ['--start-maximized']
     });
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
@@ -31,27 +37,43 @@ async function runScrapper() {
         const extractedProducts = await page.evaluate((slugCategory) => {
             const cards = Array.from(document.querySelectorAll('#gridItemRoot'));
             return cards.map((card, index) => {
-                const tituloEl = card.querySelector('div[class*="_p13n-sc-css-line-clamp-"]');
-                const precoEl = card.querySelector('.p13n-sc-price') || card.querySelector('span.a-color-price');
+                const titleEl = card.querySelector('div[class*="_p13n-sc-css-line-clamp-"]');
+                const priceEl = card.querySelector('.p13n-sc-price') || card.querySelector('span.a-color-price');
                 const imgEl = card.querySelector('img.a-dynamic-image');
                 const linkEl = card.querySelector('a.a-link-normal');
 
                 return {
-                    titulo: tituloEl ? tituloEl.textContent?.trim() : 'no title',
-                    preco: precoEl ? precoEl.textContent?.trim() : 'sold out',
-                    imagem: imgEl ? (imgEl as HTMLImageElement).src : '',
+                    title: titleEl ? titleEl.textContent?.trim() : 'no title',
+                    price: priceEl ? priceEl.textContent?.trim() : 'sold out',
+                    image: imgEl ? (imgEl as HTMLImageElement).src : '',
                     link: linkEl ? 'https://www.amazon.com.br' + linkEl.getAttribute('href') : '',
                     ranking: index + 1,
-                    category: slugCategory 
+                    category: slugCategory
                 };
             });
         }, category.slug)
 
         const readyProducts = extractedProducts.map(p => ({
-            id: randomUUID(),
+            id: `${p.title}-${p.category}`,
             ...p,
             dataScraping: new Date().toISOString()
         }));
+
+
+        for (let product of readyProducts) {
+            try {
+                await docClient.send(new PutCommand({
+                    TableName: 'ProdutosBestsellers',
+                    Item: product
+                })); 
+            } catch (error) {
+                console.log(error)
+                console.log('Error saving a product')
+            }
+        }
+
+        
+
 
         console.log(readyProducts)
     }
