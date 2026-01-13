@@ -32,7 +32,7 @@ export class Product {
   private Ranking: number;
   private Title: string;
 
-  constructor(data: IProduct) {
+  private constructor(data: IProduct) {
     this.Id = data.id;
     this.Category = data.category;
     this.DataScraping = data.dataScraping;
