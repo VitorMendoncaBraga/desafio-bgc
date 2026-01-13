@@ -1,0 +1,50 @@
+service: desafio-bgc
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: dev
+  region: us-east-1
+  memorySize: 128
+  timeout: 10
+  environment:
+    PRODUCTS_TABLE: ProdutosBestsellers
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+          Resource:
+            # Apenas permissão para a tabela de produtos e seus índices
+            - !GetAtt ProdutosTable.Arn
+            - !Join [ '/', [ !GetAtt ProdutosTable.Arn, 'index', 'CategoryIndex' ] ]
+
+# plugins:
+#   - serverless-plugin-typescript
+
+resources:
+  Resources:
+    ProdutosTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ProdutosBestsellers
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: category
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: CategoryIndex
+            KeySchema:
+              - AttributeName: category
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
