@@ -1,5 +1,5 @@
-import { Product } from "src/entities/product";
+import { Categories, Product } from "src/entities/product";
 
 export interface ProductRepository {
-    findTop3ByCategory(category: string) : Promise<Product[]>
+    findTop3ByCategory(category: Categories) : Promise<Product[]>
 }

@@ -1,5 +1,5 @@
 
-type Categories =
+export type Categories =
     | 'books'
     | 'fashion'
     | 'kitchen'
