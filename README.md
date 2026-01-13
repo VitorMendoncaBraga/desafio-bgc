@@ -1,3 +1,4 @@
+<div style="display: flex; justify-content: center">
 # Desafio BGC Brasil
 
 ![Node.js](https://img.shields.io/badge/Node.js-20-green)
