@@ -2,18 +2,18 @@
   "compilerOptions": {
     "preserveConstEnums": true,
     "strict": true,
-    "target": "ES2022", // Node 20 suporta ES2022
+    "target": "ES2022", 
     "moduleResolution": "node",
     "module": "commonjs",
     "lib": ["es2022", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "rootDir": "./",  // Importante para manter a estrutura de pastas
+    "rootDir": "./", 
     "baseUrl": "./"
   },
   "include": [
-    "src/**/*.ts" // Garante que ele ache seus arquivos na pasta src
+    "src/**/*.ts" 
   ],
   "exclude": [
     "node_modules",
