@@ -10,11 +10,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
+  "type": "commonjs",
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.159",
     "@types/minimatch": "^6.0.0",
     "@types/node": "^25.0.6",
-    "serverless-plugin-typescript": "^2.1.5",
+    "puppeteer": "^24.35.0",
+    "serverless-esbuild": "^1.57.0",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vite-tsconfig-paths": "^6.0.4",
@@ -24,7 +26,7 @@
     "@aws-sdk/client-dynamodb": "^3.966.0",
     "@aws-sdk/lib-dynamodb": "^3.966.0",
     "minimatch": "^10.1.1",
-    "puppeteer": "^24.35.0",
-    "serverless": "^3.38.0"
+    "serverless": "^3.38.0",
+    "zod": "^4.3.5"
   }
 }
