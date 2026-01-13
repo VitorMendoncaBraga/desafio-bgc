@@ -4,15 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "scrapper": "tsx ./src/scrapper/index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "devDependencies": {
+    "@types/minimatch": "^6.0.0",
     "@types/node": "^25.0.6",
-    "serverless": "^3.0.0",
+    "serverless-plugin-typescript": "^2.1.5",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.966.0",
+    "@aws-sdk/lib-dynamodb": "^3.966.0",
+    "minimatch": "^10.1.1",
+    "puppeteer": "^24.35.0",
+    "serverless": "^3.38.0"
   }
 }
