@@ -76,4 +76,9 @@ export class Product {
     return this.Title;
   }
 
+  static create({category,dataScraping,id,image,link,price,ranking,title}: IProduct){
+    const newProduct = new Product({category,dataScraping,id,image,link,price,ranking,title})
+    return newProduct
+  }
+
 }
