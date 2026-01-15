@@ -44,6 +44,7 @@ async function runScrapper() {
 
                 return {
                     title: titleEl ? titleEl.textContent?.trim() : 'no title',
+                    title_lower: titleEl ? titleEl.textContent.toLowerCase()?.trim() : 'no title',
                     price: priceEl ? priceEl.textContent?.trim() : 'sold out',
                     image: imgEl ? (imgEl as HTMLImageElement).src : '',
                     link: linkEl ? 'https://www.amazon.com.br' + linkEl.getAttribute('href') : '',
@@ -63,7 +64,7 @@ async function runScrapper() {
         for (let product of readyProducts) {
             try {
                 await docClient.send(new PutCommand({
-                    TableName: 'ProdutosBestsellers',
+                    TableName: 'ProdutosBestsellersV2',
                     Item: product
                 })); 
             } catch (error) {
