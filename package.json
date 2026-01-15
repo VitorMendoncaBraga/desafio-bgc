@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "scrapper": "tsx ./src/scrapper/index.ts",
-    "test": "npx vitest run"
+    "test": "npx vitest run",
+    "deploy": "npx serverless deploy"
   },
   "keywords": [],
   "author": "",
