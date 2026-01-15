@@ -10,7 +10,7 @@ interface GetBestSellersByCategoryResponse {
     products: Product[]
 }
 
-export class GetBestSellersByCategory {
+export class GetAllBestSellersByCategory {
     constructor(private productRepository: ProductRepository){}
 
     async execute({page,query}: GetBestSellersByCategoryRequest) : Promise<GetBestSellersByCategoryResponse>{
