@@ -84,3 +84,15 @@ functions:
           path: /bestsellers/{category}
           method: get
           cors: true
+
+  getDocs:
+    handler: src/functions/get-docs.getDocs
+    description: fetch app documentation
+    runtime: nodejs20.x
+    memorySize: 128
+    timeout: 3
+    events:
+      - http:
+          path: /docs
+          method: get
+          cors: true
