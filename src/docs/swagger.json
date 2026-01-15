@@ -1,0 +1,92 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Amazon Bestsellers API",
+        "version": "1.0.0",
+        "description": "Documentação da API de monitoramento de Bestsellers da Amazon"
+    },
+    "paths": {
+        "/bestsellers/top3": {
+            "get": {
+                "summary": "Retorna o Top 3 de uma categoria",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "books",
+                                "fashion",
+                                "kitchen",
+                                "home",
+                                "appliances",
+                                "electronics",
+                                "sports",
+                                "videogames",
+                                "furniture",
+                                "pet-products"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de produtos"
+                    }
+                }
+            }
+        },
+        "/bestsellers/{category}": {
+            "get": {
+                "summary": "Lista paginada de produtos",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "books",
+                                "fashion",
+                                "kitchen",
+                                "home",
+                                "appliances",
+                                "electronics",
+                                "sports",
+                                "videogames",
+                                "furniture",
+                                "pet-products"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Produtos da página"
+                    }
+                }
+            }
+        },
+        "/docs": {
+            "get": {
+                "summary": "Documentação",
+                "responses": {
+                    "200": {
+                        "description": "Documentação da API"
+                    }
+                }
+            }
+        }
+    }
+}
