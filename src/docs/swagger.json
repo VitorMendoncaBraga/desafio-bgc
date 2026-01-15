@@ -1,92 +1,104 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-        "title": "Amazon Bestsellers API",
-        "version": "1.0.0",
-        "description": "Documentação da API de monitoramento de Bestsellers da Amazon"
-    },
-    "paths": {
-        "/bestsellers/top3": {
-            "get": {
-                "summary": "Retorna o Top 3 de uma categoria",
-                "parameters": [
-                    {
-                        "name": "category",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "enum": [
-                                "books",
-                                "fashion",
-                                "kitchen",
-                                "home",
-                                "appliances",
-                                "electronics",
-                                "sports",
-                                "videogames",
-                                "furniture",
-                                "pet-products"
-                            ]
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Lista de produtos"
-                    }
-                }
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Amazon Bestsellers API",
+    "version": "1.0.0",
+    "description": "Documentação da API de monitoramento de Bestsellers da Amazon"
+  },
+  "paths": {
+    "/bestsellers/top3": {
+      "get": {
+        "summary": "Retorna o Top 3 de uma categoria",
+        "description": "Exemplo: `/bestsellers/top3?category=books`",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "books",
+              "enum": [
+                "books", "fashion", "kitchen", "home", "appliances", 
+                "electronics", "sports", "videogames", "furniture", "pet-products"
+              ]
             }
-        },
-        "/bestsellers/{category}": {
-            "get": {
-                "summary": "Lista paginada de produtos",
-                "parameters": [
-                    {
-                        "name": "category",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "enum": [
-                                "books",
-                                "fashion",
-                                "kitchen",
-                                "home",
-                                "appliances",
-                                "electronics",
-                                "sports",
-                                "videogames",
-                                "furniture",
-                                "pet-products"
-                            ]
-                        }
-                    },
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "default": 1
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Produtos da página"
-                    }
-                }
-            }
-        },
-        "/docs": {
-            "get": {
-                "summary": "Documentação",
-                "responses": {
-                    "200": {
-                        "description": "Documentação da API"
-                    }
-                }
-            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Lista de produtos" }
         }
+      }
+    },
+    "/bestsellers/search": {
+      "get": {
+        "summary": "Busca produtos por termo no título",
+        "description": "Busca global (case-insensitive). Exemplo: `/bestsellers/search?query=kindle&page=1`",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "kindle"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Produtos encontrados" }
+        }
+      }
+    },
+    "/bestsellers/{category}": {
+      "get": {
+        "summary": "Lista paginada por categoria",
+        "description": "Exemplo: `/bestsellers/electronics?page=2`",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "electronics",
+              "enum": [
+                "books", "fashion", "kitchen", "home", "appliances", 
+                "electronics", "sports", "videogames", "furniture", "pet-products"
+              ]
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Produtos da página" }
+        }
+      }
+    },
+    "/docs": {
+      "get": {
+        "summary": "Interface da Documentação",
+        "responses": {
+          "200": { "description": "Swagger UI" }
+        }
+      }
     }
+  }
 }
