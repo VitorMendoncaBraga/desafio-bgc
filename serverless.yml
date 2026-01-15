@@ -8,7 +8,7 @@ provider:
   memorySize: 128
   timeout: 10
   environment:
-    PRODUCTS_TABLE: ProdutosBestsellers
+    PRODUCTS_TABLE: ProdutosBestsellersV2
   iam:
     role:
       statements:
@@ -39,7 +39,7 @@ resources:
     ProdutosTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ProdutosBestsellers
+        TableName: ProdutosBestsellersV2
         BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
           - AttributeName: id
