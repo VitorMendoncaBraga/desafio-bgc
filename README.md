@@ -221,7 +221,7 @@ Ao realizar uma chamada para o endpoint, a API retornará um JSON contendo uma l
 
 ### Endpoint de documentação 
 
-Lista os produtos de uma categoria em lotes de 10 itens por vez.
+Documentação dos endpoints utilizando swagger 
 
 Endpoint: GET /dev/docs
 
