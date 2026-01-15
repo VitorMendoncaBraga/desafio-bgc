@@ -96,3 +96,15 @@ functions:
           path: /docs
           method: get
           cors: true
+
+  fetchProductsByTitle:
+    handler: src/functions/fetch-products-by-title.fetchProductsByTitle
+    description: fetch products by title
+    runtime: nodejs20.x
+    memorySize: 128
+    timeout: 3
+    events:
+      - http:
+          path: /bestsellers/search
+          method: get
+          cors: true
