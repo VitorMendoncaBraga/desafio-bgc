@@ -35,7 +35,7 @@ O sistema utiliza Puppeteer para extração inteligente de dados e DynamoDB para
 - Desenvolvido inteiramente em TypeScript, garantindo tipagem estática e segurança no desenvolvimento.
 
 ### 📖 API RESTful
-- Endpoints claros e documentados para consumo dos dados coletados.
+- Endpoints claros e documentados com swagger para consumo dos dados coletados.
 
 ## 🚀 Instalação
 
@@ -219,14 +219,32 @@ Ao realizar uma chamada para o endpoint, a API retornará um JSON contendo uma l
 }
 ```
 
+### Endpoint de documentação 
+
+Lista os produtos de uma categoria em lotes de 10 itens por vez.
+
+Endpoint: GET /dev/docs
+
+Exemplo de URL: 
+```
+https://{api-id}.execute-api.us-east-1.amazonaws.com/dev/docs
+```
+
+No caso, o endpoint oficial é: 
+```https://vz8ic0fnl0.execute-api.us-east-1.amazonaws.com/dev/docs```
+
+
 ## 🏗️ Estrutura do Projeto
 
 ```
 ├── src/
+│   ├── docs/                    # Documentação com swagger
+│   │   └── swagger.json 
 │   ├── entities/                # Definições de tipos e interfaces de domínio
 │   │   └── product.ts           # Entidade Product e tipos de Categoria
 │   ├── functions/               # Pontos de entrada das funções AWS Lambda
-│   │   ├── get-all-by-category.ts           
+│   │   ├── get-all-by-category.ts
+│   │   ├── get-docs.ts           
 │   │   └── get-top-3.ts           
 │   ├── repositories/            # Camada de acesso a dados
 │   │   ├── dynamo-db/           # Implementação real (Produção)
