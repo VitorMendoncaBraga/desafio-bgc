@@ -18,7 +18,7 @@
 
 Desafio BGC é uma solução Serverless robusta desenvolvida para monitorar e catalogar automaticamente os produtos mais vendidos (Bestsellers) da Amazon Brasil. Construído sobre o ecossistema AWS utilizando Node.js 20 e TypeScript, o projeto combina automação de coleta de dados (web scraping) com uma API REST performática.
 
-O sistema utiliza Puppeteer para extração inteligente de dados e DynamoDB para armazenamento escalável, garantindo acesso rápido aos rankings atualizados de diversas categorias. Projetado com foco em Clean Architecture e princípios de desenvolvimento moderno, a solução oferece endpoints otimizados para consulta dos "Top 3" produtos por categoria, demonstrando eficiência em arquitetura em nuvem e processamento de dados.
+O sistema utiliza Puppeteer para extração inteligente de dados e DynamoDB para armazenamento escalável, garantindo acesso rápido aos rankings atualizados de diversas categorias. Projetado com foco em Clean Architecture e princípios de desenvolvimento moderno, a solução oferece uma gama completa de endpoints otimizados: desde a consulta rápida dos "Top 3" líderes de ranking, até a navegação paginada por categorias específicas e uma funcionalidade de busca global por título com suporte a filtragem case-insensitive. Esta arquitetura demonstra eficiência em processamento de dados em nuvem, garantindo respostas rápidas e escalabilidade automática sob demanda.
 
 ## ✨ Características
 
@@ -243,7 +243,7 @@ URL: GET /dev/bestsellers/search?query=echo
 ```
 Ou de forma paginada:
 ```
-URL: GET /dev/bestsellers/search?query=echo%page=2
+URL: GET /dev/bestsellers/search?query=a&page=2
 ```
 ❌ **Requisição com Erro (Parâmetro ausente)**
 URL: `GET /dev/bestsellers/search`
@@ -314,6 +314,8 @@ No caso, o endpoint oficial é:
 │   │   └── index.ts             # Script Puppeteer (Amazon Scraper)
 │   └── use-cases/               # Regras de negócio e testes unitários
 │       ├── errors/              # Erros customizados da aplicação
+│       ├── fetch-products-by-title.spec.ts
+│       ├── fetch-products-by-title.ts
 │       ├── get-top-3-bestsellers-by-category.ts
 │       ├── get-top-3-bestsellers-by-category.spec.ts
 │       ├── get-all-bestsellers-by-category.spec.ts
