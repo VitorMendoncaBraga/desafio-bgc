@@ -86,9 +86,9 @@ Endpoint: GET /dev/bestsellers/top3
 
 #### Parâmetros Disponíveis
 
-| Parâmetro | Tipo | Padrão | Descrição |
-|-----------|------|--------|-----------|
-| `category` | string | - | Obrigatório. Slug da categoria desejada (ex: books, electronics) |
+| Parâmetro  | Tipo   | Padrão | Descrição                                                        |
+| ---------- | ------ | ------ | ---------------------------------------------------------------- |
+| `category` | string | -      | Obrigatório. Slug da categoria desejada (ex: books, electronics) |
 
 #### Categorias suportadas
 
@@ -154,10 +154,10 @@ Endpoint: GET /dev/bestsellers/{category}
 
 #### Parâmetros Disponíveis
 
-| Parâmetro | Tipo | Padrão | Descrição |
-|-----------|------|--------|-----------|
-| `category` | string | - | Obrigatório. Slug da categoria desejada (ex: books, electronics) |
-| `page` | number | 1 | Opcional, é o número da página para navegação (10 itens/página)
+| Parâmetro  | Tipo   | Padrão | Descrição                                                        |
+| ---------- | ------ | ------ | ---------------------------------------------------------------- |
+| `category` | string | -      | Obrigatório. Slug da categoria desejada (ex: books, electronics) |
+| `page`     | number | 1      | Opcional, é o número da página para navegação (10 itens/página)  |
 
 #### Categorias suportadas
 
@@ -213,6 +213,64 @@ Ao realizar uma chamada para o endpoint, a API retornará um JSON contendo uma l
       "image": "https://images-amazon.com/...",
       "link": "https://amazon.com.br/...",
       "dataScraping": "2026-01-13T12:00:00Z"
+    },
+    ...
+  ]
+}
+```
+
+### Busca de produtos pelo título
+
+Permite localizar produtos específicos em todo o catálogo utilizando palavras-chave (busca parcial). A busca varre todas as categorias e retorna os resultados de forma paginada.
+
+Endpoint: GET /dev/bestsellers/search
+
+#### Parâmetros Disponíveis
+
+| Parâmetro | Tipo   | Padrão | Descrição                                                                                  |
+| --------- | ------ | ------ | ------------------------------------------------------------------------------------------ |
+| `query`   | string | -      | Obrigatório. Termo de pesquisa a ser encontrado no título do produto (ex: kindle, iphone). |
+| `page`    | number | 1      | Opcional, é o número da página para navegação (10 itens/página)                            |
+
+#### 📥 Exemplos de requisições
+
+A API exige obrigatoriamente o parâmetro query na URL (Query String).
+
+✅ **Requisição com Sucesso**
+Busca simples:
+```
+URL: GET /dev/bestsellers/search?query=echo
+```
+Ou de forma paginada:
+```
+URL: GET /dev/bestsellers/search?query=echo%page=2
+```
+❌ **Requisição com Erro (Parâmetro ausente)**
+URL: `GET /dev/bestsellers/search`
+
+**Resposta (400 Bad Request):**
+```json
+{
+  "error": "Query misses on request"
+}
+```
+
+#### 📥 Exemplo de resposta
+
+Ao realizar uma chamada para o endpoint, a API retornará um JSON contendo uma lista com os produtos encontrados
+
+```json
+{
+  "products": [
+    {
+      "image": "https://images-na.ssl-images-amazon.com/images/I/61V5FRUgX8L._AC_UL600_SR600,400_.jpg",
+      "ranking": 8,
+      "category": "electronics",
+      "link": "https://www.amazon.com.br/Echo-Pop-Cor-Preta/dp/B09WXVH7WK/ref=zg_bs_g_electronics_d_sccl_8/143-5496990-5368024?psc=1",
+      "price": "R$ 379,00",
+      "id": "Echo Pop (Geração mais recente) | Smart speaker compacto com som envolvente e Alexa | Cor Preta-electronics",
+      "dataScraping": "2026-01-13T13:02:22.490Z",
+      "title": "Echo Pop (Geração mais recente) | Smart speaker compacto com som envolvente e Alexa | Cor Preta"
     },
     ...
   ]
