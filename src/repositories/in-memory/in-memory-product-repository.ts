@@ -7,7 +7,15 @@ export class InMemoryProductRepository implements ProductRepository {
         const result = this.items.filter((item) => item.category == category).slice(0,3)
         return result
     }
+
+    async findProductsByCategory(category: Categories, page: number): Promise<Product[]> {
+        const NUMBER_ITEMS_PER_PAGE = 10
+        const result = this.items.filter((item) => item.category == category).slice((page - 1) * NUMBER_ITEMS_PER_PAGE, page * NUMBER_ITEMS_PER_PAGE)
+        return result
+    }
+
     async save(product: Product): Promise<void>{
         this.items.push(product)
     }
+
 }
