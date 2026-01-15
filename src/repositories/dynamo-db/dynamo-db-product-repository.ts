@@ -5,12 +5,12 @@ import { Categories, Product } from "src/entities/product";
 import { ProductRepository } from "../product-repository";
 
 export class DynamoDbProductRepository implements ProductRepository {
-    private readonly client: DynamoDBDocumentClient;
-    private readonly tableName = "ProdutosBestsellers";
+    private readonly client: DynamoDBDocumentClient
+    private readonly tableName = "ProdutosBestsellers"
 
     constructor() {
-        const baseClient = new DynamoDBClient({});
-        this.client = DynamoDBDocumentClient.from(baseClient);
+        const baseClient = new DynamoDBClient({})
+        this.client = DynamoDBDocumentClient.from(baseClient)
     }
 
     async findTop3ByCategory(category: Categories): Promise<Product[]> {
@@ -25,7 +25,7 @@ export class DynamoDbProductRepository implements ProductRepository {
             ScanIndexForward: true,
         });
 
-        const response = await this.client.send(command);
+        const response = await this.client.send(command)
         return response.Items as Product[]
     }
 
@@ -43,23 +43,22 @@ export class DynamoDbProductRepository implements ProductRepository {
             ScanIndexForward: true,
         });
 
-        const response = await this.client.send(command);
+        const response = await this.client.send(command)
         return response.Items?.slice((page - 1) * NUMBER_ITEMS_PER_PAGE, page * NUMBER_ITEMS_PER_PAGE) as Product[]
     }
 
     async findManyByTitle(query: string, page: number): Promise<Product[]> {
-        const NUMBER_ITEMS_PER_PAGE = 10;
+        const NUMBER_ITEMS_PER_PAGE = 10
         const limit = page * NUMBER_ITEMS_PER_PAGE;
         const command = new ScanCommand({
             TableName: this.tableName,
-            FilterExpression: "contains(title, :query)",
-            ExpressionAttributeValues: {
-                ":query": query, 
-            },
-            Limit: limit
         });
 
-        const response = await this.client.send(command);
-        return response.Items?.slice((page - 1) * NUMBER_ITEMS_PER_PAGE, page * NUMBER_ITEMS_PER_PAGE) as Product[]
+        const response = await this.client.send(command)
+        const allItems = (response.Items || []) as Product[]
+        const filteredItems = allItems.filter((item) => 
+            item.title.toLowerCase().includes(query.toLowerCase())
+        );
+        return filteredItems.splice((page - 1) * NUMBER_ITEMS_PER_PAGE, limit)
     }
 }
