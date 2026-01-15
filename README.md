@@ -112,10 +112,10 @@ A API exige obrigatoriamente o parâmetro category na URL. Caso ele não seja en
 ✅ **Requisição com Sucesso**
 Para buscar os produtos, utilize o parâmetro via Query String:
 ```
-URL: GET /dev/bestsellers?category=books
+URL: GET /dev/bestsellers/top3?category=books
 ```
 ❌ **Requisição com Erro (Parâmetro ausente)**
-URL: `GET /dev/bestsellers`
+URL: `GET /dev/bestsellers/top3`
 
 **Resposta (400 Bad Request):**
 ```json
