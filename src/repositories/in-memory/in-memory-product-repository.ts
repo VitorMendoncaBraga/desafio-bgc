@@ -14,6 +14,12 @@ export class InMemoryProductRepository implements ProductRepository {
         return result
     }
 
+    async findManyByTitle(query: string, page: number): Promise<Product[]> {
+        const NUMBER_ITEMS_PER_PAGE = 10
+        const result = this.items.filter((item) => item.title.includes(query)).slice((page - 1) * NUMBER_ITEMS_PER_PAGE, page * NUMBER_ITEMS_PER_PAGE)
+        return result
+    }
+
     async save(product: Product): Promise<void>{
         this.items.push(product)
     }
