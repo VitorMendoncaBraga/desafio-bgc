@@ -45,7 +45,6 @@ describe("Fetch products by title", () => {
         const page = 1
 
         const productsResponse = await inMemoryProductRepository.findManyByTitle('book', page)
-        console.log(productsResponse)
         expect(productsResponse).toHaveLength(5)
 
     })
@@ -82,7 +81,6 @@ describe("Fetch products by title", () => {
         const page = 1
 
         const productsResponse = await inMemoryProductRepository.findManyByTitle('green', page)
-        console.log(productsResponse)
         expect(productsResponse).toHaveLength(6)
 
     })
