@@ -226,7 +226,8 @@ Ao realizar uma chamada para o endpoint, a API retornará um JSON contendo uma l
 │   ├── entities/                # Definições de tipos e interfaces de domínio
 │   │   └── product.ts           # Entidade Product e tipos de Categoria
 │   ├── functions/               # Pontos de entrada das funções AWS Lambda
-│   │   └── handler.ts           # Handler principal da API (getTop3)
+│   │   ├── get-all-by-category.ts           
+│   │   └── get-top-3.ts           
 │   ├── repositories/            # Camada de acesso a dados
 │   │   ├── dynamo-db/           # Implementação real (Produção)
 │   │   │   └── dynamo-db-product-repository.ts
@@ -238,7 +239,9 @@ Ao realizar uma chamada para o endpoint, a API retornará um JSON contendo uma l
 │   └── use-cases/               # Regras de negócio e testes unitários
 │       ├── errors/              # Erros customizados da aplicação
 │       ├── get-top-3-bestsellers-by-category.ts
-│       └── get-top-3-bestsellers-by-category.spec.ts
+│       ├── get-top-3-bestsellers-by-category.spec.ts
+│       ├── get-all-bestsellers-by-category.spec.ts
+│       └── get-all-bestsellers-by-category.ts
 ├── .gitignore                   # Arquivos ignorados pelo Git
 ├── package-lock.json            # Travamento de versões das dependências
 ├── package.json                 # Scripts e dependências (Zod, Puppeteer, SDK)
