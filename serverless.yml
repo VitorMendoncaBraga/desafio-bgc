@@ -24,6 +24,7 @@ provider:
 
 plugins:
   - serverless-esbuild
+  - serverless-offline
 
 package:
   individually: true
