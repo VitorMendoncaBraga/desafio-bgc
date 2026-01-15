@@ -3,7 +3,7 @@ service: desafio-bgc
 provider:
   name: aws
   runtime: nodejs20.x
-  stage: v1
+  stage: dev
   region: us-east-1
   memorySize: 128
   timeout: 10
