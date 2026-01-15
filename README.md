@@ -74,34 +74,38 @@ npm run test
 
 ```
 
-## 📘 Documentação
+## 📘 Documentação da API
 
-### API de Consulta (Endpoint)
+O sistema oferece dois endpoints principais para consulta de dados, permitindo tanto uma visão rápida dos líderes de venda quanto uma navegação mais profunda pelos produtos catalogados.
 
-A API estará disponível através do endpoint gerado pelo Serverless. Você pode buscar os 3 melhores produtos de uma categoria específica enviando uma requisição GET:
+### Top 3 (Ranking Rápido)
 
-Exemplo de URL: 
-```
-https://{api-id}.execute-api.us-east-1.amazonaws.com/dev/bestsellers?category=books
-```
+Retorna os 3 primeiros colocados de uma categoria específica. Ideal para vitrines e destaques.
 
-No caso, o endpoint oficial é: 
-```https://vz8ic0fnl0.execute-api.us-east-1.amazonaws.com/dev/bestsellers```
+Endpoint: GET /dev/bestsellers/top3
 
-## Parâmetros Disponíveis
+#### Parâmetros Disponíveis
 
 | Parâmetro | Tipo | Padrão | Descrição |
 |-----------|------|--------|-----------|
 | `category` | string | - | Obrigatório. Slug da categoria desejada (ex: books, electronics) |
 
-## Categorias suportadas
+#### Categorias suportadas
 
 Para garantir o sucesso da requisição, utilize os slugs abaixo no parâmetro category:
 ```
 books, fashion, kitchen, home, appliances, electronics, sports, videogames, furniture, pet-products.
 ```
 
-## 📥 Exemplos de requisições
+Exemplo de URL: 
+```
+https://{api-id}.execute-api.us-east-1.amazonaws.com/dev/bestsellers/top3?category=books
+```
+
+No caso, o endpoint oficial é: 
+```https://vz8ic0fnl0.execute-api.us-east-1.amazonaws.com/dev/bestsellers/top3```
+
+#### 📥 Exemplos de requisições
 
 A API exige obrigatoriamente o parâmetro category na URL. Caso ele não seja enviado, a requisição retornará um erro de validação.
 
@@ -116,13 +120,86 @@ URL: `GET /dev/bestsellers`
 **Resposta (400 Bad Request):**
 ```json
 {
-  "message": "O parâmetro 'category' é obrigatório."
+  "error": "Invalid category query"
 }
 ```
 
-## 📥 Exemplo de resposta
+#### 📥 Exemplo de resposta
 
 Ao realizar uma chamada para o endpoint, a API retornará um JSON contendo uma lista com os 3 produtos de melhor ranking (1º, 2º e 3º lugares):
+
+```json
+{
+  "products": [
+    {
+      "id": "A-Menina-que-Roubava-Livros-books",
+      "title": "A Menina que Roubava Livros",
+      "price": "R$ 45,90",
+      "ranking": 1,
+      "category": "books",
+      "image": "https://images-amazon.com/...",
+      "link": "https://amazon.com.br/...",
+      "dataScraping": "2026-01-13T12:00:00Z"
+    },
+    ...
+  ]
+}
+```
+
+### Lista Paginada (Catálogo Completo)
+
+Lista os produtos de uma categoria em lotes de 10 itens por vez.
+
+Endpoint: GET /dev/bestsellers/{category}
+
+#### Parâmetros Disponíveis
+
+| Parâmetro | Tipo | Padrão | Descrição |
+|-----------|------|--------|-----------|
+| `category` | string | - | Obrigatório. Slug da categoria desejada (ex: books, electronics) |
+| `page` | number | 1 | Opcional, é o número da página para navegação (10 itens/página)
+
+#### Categorias suportadas
+
+Para garantir o sucesso da requisição, utilize os slugs abaixo no parâmetro category:
+```
+books, fashion, kitchen, home, appliances, electronics, sports, videogames, furniture, pet-products.
+```
+
+Exemplo de URL: 
+```
+https://{api-id}.execute-api.us-east-1.amazonaws.com/dev/bestsellers/books
+```
+
+No caso, o endpoint oficial utilizando a categoria 'books' é: 
+```https://vz8ic0fnl0.execute-api.us-east-1.amazonaws.com/dev/bestsellers/books```
+
+#### 📥 Exemplos de requisições
+
+A API exige obrigatoriamente o parâmetro category na URL. Caso ele não seja enviado, a requisição retornará um erro de validação.
+
+✅ **Requisição com Sucesso**
+Para buscar os produtos, utilize o parâmetro via parâmetro:
+```
+URL: GET /dev/bestsellers/books
+```
+Ou de forma paginada:
+```
+URL: GET /dev/bestsellers/books?page=2
+```
+❌ **Requisição com Erro (Parâmetro ausente)**
+URL: `GET /dev/bestsellers`
+
+**Resposta (400 Bad Request):**
+```json
+{
+  "error": "Error of parameters validation"
+}
+```
+
+#### 📥 Exemplo de resposta
+
+Ao realizar uma chamada para o endpoint, a API retornará um JSON contendo uma lista com 10 produtos de forma paginada
 
 ```json
 {
