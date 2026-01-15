@@ -62,7 +62,7 @@ resources:
 
 functions:
   getTop3BestSellers:
-    handler: src/functions/handler.getTop3BestSellersByCategory
+    handler: src/functions/get-top-3.getTop3BestSellersByCategory
     description: fetch top 3 best sellers by category
     runtime: nodejs20.x
     memorySize: 128
@@ -74,7 +74,7 @@ functions:
           cors: true
 
   getAllBestSellers:
-    handler: src/functions/handler.getAllBestSellersByCategory
+    handler: src/functions/get-all-by-category.getAllBestSellersByCategory
     description: fetch all best sellers by category
     runtime: nodejs20.x
     memorySize: 128
