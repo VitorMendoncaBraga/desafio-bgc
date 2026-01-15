@@ -97,8 +97,9 @@ No caso, o endpoint oficial é:
 ## Categorias suportadas
 
 Para garantir o sucesso da requisição, utilize os slugs abaixo no parâmetro category:
-
+```
 books, fashion, kitchen, home, appliances, electronics, sports, videogames, furniture, pet-products.
+```
 
 ## 📥 Exemplos de requisições
 
