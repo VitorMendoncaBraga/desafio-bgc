@@ -1,5 +1,5 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, QueryCommand } from "@aws-sdk/lib-dynamodb";
+import { DynamoDBDocumentClient, QueryCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 
 import { Categories, Product } from "src/entities/product";
 import { ProductRepository } from "../product-repository";
@@ -44,6 +44,22 @@ export class DynamoDbProductRepository implements ProductRepository {
         });
 
         const response = await this.client.send(command);
-        return response.Items?.splice((page - 1) * NUMBER_ITEMS_PER_PAGE, page * NUMBER_ITEMS_PER_PAGE) as Product[]
+        return response.Items?.slice((page - 1) * NUMBER_ITEMS_PER_PAGE, page * NUMBER_ITEMS_PER_PAGE) as Product[]
+    }
+
+    async findManyByTitle(query: string, page: number): Promise<Product[]> {
+        const NUMBER_ITEMS_PER_PAGE = 10;
+        const limit = page * NUMBER_ITEMS_PER_PAGE;
+        const command = new ScanCommand({
+            TableName: this.tableName,
+            FilterExpression: "contains(title, :query)",
+            ExpressionAttributeValues: {
+                ":query": query, 
+            },
+            Limit: limit
+        });
+
+        const response = await this.client.send(command);
+        return response.Items?.slice((page - 1) * NUMBER_ITEMS_PER_PAGE, page * NUMBER_ITEMS_PER_PAGE) as Product[]
     }
 }
