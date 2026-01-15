@@ -12,26 +12,26 @@ provider:
   iam:
     role:
       statements:
-      - Effect: Allow
-        Action:
-        - dynamodb:Query
-        - dynamodb:Scan
-        - dynamodb:GetItem
-        - dynamodb:PutItem
-        Resource:
-        - !GetAtt ProdutosTable.Arn
-        - !Join [ '/', [ !GetAtt ProdutosTable.Arn, 'index', 'CategoryIndex' ] ]
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+          Resource:
+            - !GetAtt ProdutosTable.Arn
+            - !Join ["/", [!GetAtt ProdutosTable.Arn, "index", "CategoryIndex"]]
 
 plugins:
   - serverless-esbuild
 
 package:
-  individually: true 
+  individually: true
   patterns:
-    - '!node_modules/**' 
-    - '!.git/**'
-    - '!.serverless/**'
-    - '!.build/**'
+    - "!node_modules/**"
+    - "!.git/**"
+    - "!.serverless/**"
+    - "!.build/**"
 
 resources:
   Resources:
@@ -41,24 +41,24 @@ resources:
         TableName: ProdutosBestsellers
         BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
-        - AttributeName: id
-          AttributeType: S
-        - AttributeName: category
-          AttributeType: S
-        - AttributeName: ranking
-          AttributeType: N
-        KeySchema:
-        - AttributeName: id
-          KeyType: HASH
-        GlobalSecondaryIndexes:
-        - IndexName: CategoryIndex
-          KeySchema:
+          - AttributeName: id
+            AttributeType: S
           - AttributeName: category
-            KeyType: HASH
+            AttributeType: S
           - AttributeName: ranking
-            KeyType: RANGE
-          Projection:
-            ProjectionType: ALL
+            AttributeType: N
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: CategoryIndex
+            KeySchema:
+              - AttributeName: category
+                KeyType: HASH
+              - AttributeName: ranking
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
 
 functions:
   getTop3BestSellers:
@@ -68,7 +68,19 @@ functions:
     memorySize: 128
     timeout: 3
     events:
-    - http:
-        path: /bestsellers
-        method: get
-        cors: true
+      - http:
+          path: /bestsellers/top3
+          method: get
+          cors: true
+
+  getAllBestSellers:
+    handler: src/functions/handler.getAllBestSellersByCategory
+    description: fetch all best sellers by category
+    runtime: nodejs20.x
+    memorySize: 128
+    timeout: 3
+    events:
+      - http:
+          path: /bestsellers/{category}
+          method: get
+          cors: true
