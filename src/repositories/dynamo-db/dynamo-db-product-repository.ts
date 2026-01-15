@@ -6,7 +6,7 @@ import { ProductRepository } from "../product-repository";
 
 export class DynamoDbProductRepository implements ProductRepository {
     private readonly client: DynamoDBDocumentClient
-    private readonly tableName = "ProdutosBestsellers"
+    private readonly tableName = "ProdutosBestsellersV2"
 
     constructor() {
         const baseClient = new DynamoDBClient({})
@@ -44,7 +44,7 @@ export class DynamoDbProductRepository implements ProductRepository {
         });
 
         const response = await this.client.send(command)
-        return response.Items?.slice((page - 1) * NUMBER_ITEMS_PER_PAGE, page * NUMBER_ITEMS_PER_PAGE) as Product[]
+        return response.Items?.slice((page - 1) * NUMBER_ITEMS_PER_PAGE, limit) as Product[]
     }
 
     async findManyByTitle(query: string, page: number): Promise<Product[]> {
@@ -52,13 +52,13 @@ export class DynamoDbProductRepository implements ProductRepository {
         const limit = page * NUMBER_ITEMS_PER_PAGE;
         const command = new ScanCommand({
             TableName: this.tableName,
+            FilterExpression: "contains(title_lower, :query)",
+            ExpressionAttributeValues: {
+                ":query": query.toLowerCase()
+            },
         });
 
         const response = await this.client.send(command)
-        const allItems = (response.Items || []) as Product[]
-        const filteredItems = allItems.filter((item) => 
-            item.title.toLowerCase().includes(query.toLowerCase())
-        );
-        return filteredItems.splice((page - 1) * NUMBER_ITEMS_PER_PAGE, limit)
+        return response.Items?.slice((page - 1) * NUMBER_ITEMS_PER_PAGE, limit) as Product[]
     }
 }
