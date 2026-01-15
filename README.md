@@ -103,7 +103,7 @@ https://{api-id}.execute-api.us-east-1.amazonaws.com/dev/bestsellers/top3?catego
 ```
 
 No caso, o endpoint oficial é: 
-```https://vz8ic0fnl0.execute-api.us-east-1.amazonaws.com/dev/bestsellers/top3```
+```https://vz8ic0fnl0.execute-api.us-east-1.amazonaws.com/dev/bestsellers/top3?category=books```
 
 #### 📥 Exemplos de requisições
 
@@ -225,11 +225,14 @@ Permite localizar produtos específicos em todo o catálogo utilizando palavras-
 
 Endpoint: GET /dev/bestsellers/search
 
+No caso, o endpoint oficial é: 
+```https://vz8ic0fnl0.execute-api.us-east-1.amazonaws.com/dev/bestsellers/search?query=a```
+
 #### Parâmetros Disponíveis
 
 | Parâmetro | Tipo   | Padrão | Descrição                                                                                  |
 | --------- | ------ | ------ | ------------------------------------------------------------------------------------------ |
-| `query`   | string | -      | Obrigatório. Termo de pesquisa a ser encontrado no título do produto (ex: kindle, iphone). |
+| `query`   | string | -      | Obrigatório. Termo de pesquisa a ser encontrado no título do produto (ex: echo, iphone). |
 | `page`    | number | 1      | Opcional, é o número da página para navegação (10 itens/página)                            |
 
 #### 📥 Exemplos de requisições
